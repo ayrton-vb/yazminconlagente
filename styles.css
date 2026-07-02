@@ -159,12 +159,51 @@ img {
 }
 
 .hero-media {
+  position: relative;
+  overflow: hidden;
   width: 100%;
   aspect-ratio: 16 / 9;
   background-image: url("BANNER%203.png");
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
+  will-change: clip-path, transform, filter;
+}
+
+.hero-sweep,
+.hero-edge {
+  position: absolute;
+  pointer-events: none;
+}
+
+.hero-sweep {
+  top: -24%;
+  bottom: -24%;
+  left: 0;
+  width: 18%;
+  background: rgba(255, 255, 255, 0.22);
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translateX(-160%) rotate(10deg);
+  transform-origin: center;
+}
+
+.hero-edge {
+  left: 0;
+  right: 0;
+  height: 3px;
+  transform: scaleX(0);
+  transform-origin: left center;
+}
+
+.hero-edge-cyan {
+  top: 0;
+  background: var(--color-cyan);
+}
+
+.hero-edge-magenta {
+  bottom: 0;
+  background: var(--color-magenta);
 }
 
 .hero-panel {
@@ -619,6 +658,10 @@ h3 {
 
   .hero-media {
     background-size: contain;
+  }
+
+  .hero-edge {
+    height: 2px;
   }
 
   .hero-panel {
