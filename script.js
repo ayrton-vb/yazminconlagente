@@ -30,6 +30,7 @@ if (!reduceMotion && window.gsap) {
     gsap.registerPlugin(ScrollTrigger);
   }
 
+  const isSmallPhone = window.matchMedia("(max-width: 560px)").matches;
   const heroTimeline = gsap.timeline({
     defaults: {
       ease: "power3.out",
@@ -53,7 +54,7 @@ if (!reduceMotion && window.gsap) {
     opacity: 0,
     rotate: 10
   });
-  gsap.set([".eyebrow", ".hero h1", ".hero-lead", ".hero-actions"], {
+  gsap.set([".hero-panel .eyebrow", ".hero h1", ".hero-lead", ".hero-actions"], {
     y: 22,
     opacity: 0
   });
@@ -105,17 +106,34 @@ if (!reduceMotion && window.gsap) {
         duration: 0.24
       },
       "-=0.2"
-    )
-    .to(
-      [".eyebrow", ".hero h1", ".hero-lead", ".hero-actions"],
+    );
+
+  if (isSmallPhone) {
+    heroTimeline.to(
+      [".hero-panel .eyebrow", ".hero h1", ".hero-lead", ".hero-actions"],
       {
         y: 0,
         opacity: 1,
-        stagger: 0.12,
-        duration: 0.72
+        stagger: 0.1,
+        duration: 0.72,
+        ease: "power3.out"
       },
-      "-=0.58"
+      "-=0.22"
     );
+  } else if (window.ScrollTrigger) {
+    gsap.to([".hero-panel .eyebrow", ".hero h1", ".hero-lead", ".hero-actions"], {
+      y: 0,
+      opacity: 1,
+      stagger: 0.12,
+      duration: 0.72,
+      ease: "power3.out",
+      scrollTrigger: {
+        trigger: ".hero-panel",
+        start: "top 28%",
+        once: true
+      }
+    });
+  }
 
   if (window.ScrollTrigger) {
     const revealGroups = [
@@ -125,8 +143,7 @@ if (!reduceMotion && window.gsap) {
       ".priority-grid article",
       ".updates-heading > *",
       ".updates-grid .update-card",
-      ".contact-section > *",
-      ".site-footer > *"
+      ".contact-section > *"
     ];
 
     revealGroups.forEach((selector) => {
